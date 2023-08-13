@@ -62,6 +62,8 @@ if [ ! -d "$folder" ] || [ ! -d "${folder}/${opencv_folder}" ]; then
     rm opencv-${version}.zip opencv_contrib-${version}.zip
     cd $opencv_folder
 else
+    cd $folder
+    cd $opencv_folder
     echo -e "${green}OpenCV folders already exist, skipping download and extraction.${nc}"
 fi
 
