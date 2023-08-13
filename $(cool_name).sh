@@ -1,4 +1,4 @@
-#!/usr/bin/bash
+#!/usr/bin/env bash
 
 #
 # Copyright (c) 2023, ABHIYAAN Limited. All rights reserved.
@@ -24,18 +24,18 @@ set -e
 
 
 if [ -n "$(dpkg -l | grep libopencv)" ]; then
-    echo "$(green)** Removing existing OpenCV installation$(nc)"
+    echo -e "${green}** Removing existing OpenCV installation${nc}"
     sudo apt -y purge *libopencv*
 else
-    echo "${red}OpenCV is not preinstalled.\nIf you have built it already then remove that shit respectfully.$(nc)"
+    echo -e "${red}OpenCV is not preinstalled.\nIf you have built it already then remove that shit respectfully.${nc}"
 fi
 
 
 flag_file="/tmp/opencv_install_flag"
 if [ ! -f "$flag_file" ]; then
-    echo -e "$(green)------------------------------------$(nc)"
-    echo "$(green)** Install requirement (1/4)$(nc)"
-    echo -e "$(green)------------------------------------$(nc)"
+    echo -e "${green}------------------------------------${nc}"
+    echo -e "${green}** Install requirement (1/4)${nc}"
+    echo -e "${green}------------------------------------${nc}"
     sudo apt-get update
     sudo apt-get install -y build-essential cmake git libgtk2.0-dev pkg-config libavcodec-dev libavformat-dev libswscale-dev
     sudo apt-get install -y libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev
@@ -46,13 +46,13 @@ if [ ! -f "$flag_file" ]; then
 
     sudo touch "$flag_file"
 else
-    echo "$(green)Necessary requirements already installed.$(nc)"
+    echo -e "${green}Necessary requirements already installed.${nc}"
 fi
 
 if [ ! -d "$folder" ] || [ ! -d "${folder}/${opencv_folder}" ]; then
-    echo -e "$(green)------------------------------------$(nc)"
-    echo "$(green)** Download opencv "${version}" (2/4)$(nc)"
-    echo -e "$(green)------------------------------------$(nc)"
+    echo -e "${green}------------------------------------${nc}"
+    echo -e "${green}** Download opencv "${version}" (2/4)${nc}"
+    echo -e "${green}------------------------------------${nc}"
     mkdir -p $folder
     cd $folder
     curl -L https://github.com/opencv/opencv/archive/${version}.zip -o opencv-${version}.zip
@@ -62,13 +62,13 @@ if [ ! -d "$folder" ] || [ ! -d "${folder}/${opencv_folder}" ]; then
     rm opencv-${version}.zip opencv_contrib-${version}.zip
     cd $opencv_folder
 else
-    echo "$(green)OpenCV folders already exist, skipping download and extraction.$(nc)"
+    echo -e "${green}OpenCV folders already exist, skipping download and extraction.${nc}"
 fi
 
 
-echo "$(green)------------------------------------$(nc)"
-echo "$(green)** Build opencv "${version}" (3/4)$(nc)"
-echo "$(green)------------------------------------$(nc)"
+echo -e "${green}------------------------------------${nc}"
+echo -e "${green}** Build opencv "${version}" (3/4)${nc}"
+echo -e "${green}------------------------------------${nc}"
 
 if [ ! -d "build" ]; then
     mkdir build
@@ -101,9 +101,9 @@ cmake \
 make -j$(nproc)
 
 
-echo "$(green)------------------------------------$(nc)"
-echo "$(green)** Install opencv "${version}" (4/4)$(nc)"
-echo "$(green)------------------------------------$(nc)"
+echo -e "${green}------------------------------------${nc}"
+echo -e "${green}** Install opencv "${version}" (4/4)${nc}"
+echo -e "${green}------------------------------------${nc}"
 sudo make install
 
 echo 'export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH' >> ~/.zshrc
@@ -111,6 +111,6 @@ echo 'export PYTHONPATH=/usr/local/lib/python3.8/site-packages/:$PYTHONPATH' >> 
 source ~/.zshrc
 
 
-echo "$(green)** Install opencv "${version}" successfully$(nc)\n\n"
+echo -e "${green}** Install opencv "${version}" successfully${nc}\n\n"
 python3 -c "import cv2; print('OpenCV is built with CUDA support' if 'cuda' in cv2.getBuildInformation() else 'OpenCV is not built with CUDA support')"
-echo "\n\n$(red)TILL THE NEXT TIME, BITCHES!$(nc)"
+echo -e "\n\n${red}TILL THE NEXT TIME, BITCHES!${nc}"
