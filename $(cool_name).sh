@@ -112,6 +112,10 @@ echo 'export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH' >> ~/.zshrc
 echo 'export PYTHONPATH=/usr/local/lib/python3.8/site-packages/:$PYTHONPATH' >> ~/.zshrc
 source ~/.zshrc
 
+echo 'export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH' >> ~/.bashrc
+echo 'export PYTHONPATH=/usr/local/lib/python3.8/site-packages/:$PYTHONPATH' >> ~/.bashrc
+source ~/.bashrc
+
 
 echo -e "${green}** Install opencv "${version}" successfully${nc}\n\n"
 python3 -c "import cv2; print('OpenCV is built with CUDA support' if 'cuda' in cv2.getBuildInformation() else 'OpenCV is not built with CUDA support')"
