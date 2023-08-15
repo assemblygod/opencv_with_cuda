@@ -44,6 +44,18 @@ if [ ! -f "$flag_file" ]; then
     sudo apt-get install -y libv4l-dev v4l-utils qv4l2
     sudo apt-get install -y curl
 
+    if ! command -v gcc-11 &> /dev/null || ! command -v g++-11 &> /dev/null; then
+        echo -e "${green}------------------------------------${nc}"
+	echo -e "${green}** Installing GCC 11 and G++ 11 ${nc}"
+	echo -e "${green}------------------------------------${nc}"
+	sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test
+	sudo apt-get update
+	sudo apt-get install -y gcc-11 g++-11
+	echo -e "${green}\nInstalled GCC 11 and G++ 11, atleast have them installed\nDISAPPOINTMENT YOU ARE!!\n${nc}"
+    else
+    	echo -e "${green}\nGCC 11 and G++ 11 already installed.\nGOOD BOY!!\n${nc}"
+    fi
+
     sudo touch "$flag_file"
 else
     echo -e "${green}Necessary requirements already installed.${nc}"
